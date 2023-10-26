@@ -8,7 +8,7 @@ use crate::{
 };
 use aggregator::ChunkHash;
 use anyhow::Result;
-use eth_types::l2_types::BlockTrace;
+use eth_types::l2_types::ChunkTrace;
 
 #[derive(Debug)]
 pub struct Prover {
@@ -41,7 +41,7 @@ impl Prover {
 
     pub fn gen_chunk_proof(
         &mut self,
-        chunk_trace: Vec<BlockTrace>,
+        chunk_trace: ChunkTrace,
         name: Option<&str>,
         inner_id: Option<&str>,
         output_dir: Option<&str>,

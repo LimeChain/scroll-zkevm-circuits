@@ -10,6 +10,14 @@ use std::collections::HashMap;
 
 /// l2 block full trace
 #[derive(Deserialize, Serialize, Default, Debug, Clone)]
+pub struct ChunkTrace {
+  pub block_traces: Vec<BlockTrace>,
+  pub prev_last_applied_11_block: u64,
+  pub l1_block_range_hash: Vec<u8>,
+}
+
+/// l2 block full trace
+#[derive(Deserialize, Serialize, Default, Debug, Clone)]
 pub struct BlockTrace {
     /// chain id
     #[serde(rename = "chainID", default)]

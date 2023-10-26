@@ -254,7 +254,8 @@ pub fn block_trace_to_witness_block(block_trace: BlockTrace) -> Result<Block<Fr>
     block_traces_to_witness_block_with_updated_state(vec![], &mut builder)
 }
 
-pub fn block_traces_to_witness_block(block_traces: Vec<BlockTrace>) -> Result<Block<Fr>> {
+pub fn block_traces_to_witness_block(chunk_trace: ChunkTrace) -> Result<Block<Fr>> {
+    block_traces = chunk_trace.block_traces;
     validite_block_traces(&block_traces)?;
     let block_num = block_traces.len();
     let total_tx_num = block_traces
