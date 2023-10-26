@@ -35,6 +35,10 @@ pub struct Block<F> {
     pub _marker: std::marker::PhantomData<F>,
     /// Transactions in the block
     pub txs: Vec<Transaction>,
+    pub prev_last_applied_11_block: u64, 
+    pub last_applied_l1_block: u64, 
+    pub l1_block_range_hash: Vec<u8>,
+    pub l1_block_hashes: Vec<Vec<u8>>, 
     /// Signatures in the block
     pub sigs: Vec<Signature>,
     /// EndBlock step that is repeated after the last transaction and before
@@ -535,6 +539,10 @@ pub fn block_convert<F: Field>(
                 tx_convert(tx, idx + 1, chain_id, next_block_num)
             })
             .collect(),
+        prev_last_applied_11_block: block.prev_last_applied_11_block,
+        last_applied_l1_block: block.last_applied_l1_block,
+        l1_block_range_hash: block.l1_block_range_hash.clone(),
+        l1_block_hashes: block.l1_block_hashes.clone(),
         sigs: block.txs().iter().map(|tx| tx.signature).collect(),
         end_block_not_last,
         end_block_last,

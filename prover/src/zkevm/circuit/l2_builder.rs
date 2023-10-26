@@ -291,6 +291,8 @@ pub fn block_traces_to_witness_block(chunk_trace: ChunkTrace) -> Result<Block<Fr
             get_super_circuit_params(),
             traces.next().unwrap(),
             block_traces_len > 1,
+            chunk_trace.prev_last_applied_11_block,
+            chunk_trace.l1_block_range_hash,
             false,
         )?;
         let witness = block_traces_to_witness_block_with_updated_state(

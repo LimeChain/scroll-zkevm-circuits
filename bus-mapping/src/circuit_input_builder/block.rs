@@ -194,6 +194,14 @@ pub struct Block {
     pub container: OperationContainer,
     /// Transactions contained in the block
     pub txs: Vec<Transaction>,
+    /// TODO
+    pub prev_last_applied_11_block: u64, 
+    /// TODO
+    pub last_applied_l1_block: u64, 
+    /// TODO
+    pub l1_block_range_hash: Vec<u8>,
+    /// TODO
+    pub l1_block_hashes: Vec<Vec<u8>>, 
     /// Copy events in this block.
     pub copy_events: Vec<CopyEvent>,
     /// ..

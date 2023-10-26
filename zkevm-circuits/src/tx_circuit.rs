@@ -91,6 +91,7 @@ enum LookupCondition {
     TxCalldata,
     // lookup into rlp table
     L1MsgHash,
+    L1BlockHashesHash,
     RlpSignTag,
     RlpHashTag,
     // lookup into keccak table
@@ -278,6 +279,7 @@ impl<F: Field> SubCircuitConfig<F> for TxCircuitConfig<F> {
 
         // booleans to reduce degree
         let is_l1_msg = meta.advice_column();
+        let is_l1_block_hashes = meta.advice_column();
         let is_calldata = meta.advice_column();
         let is_caller_address = meta.advice_column();
         let is_chain_id = meta.advice_column();
@@ -285,6 +287,7 @@ impl<F: Field> SubCircuitConfig<F> for TxCircuitConfig<F> {
         let lookup_conditions = [
             LookupCondition::TxCalldata,
             LookupCondition::L1MsgHash,
+            LookupCondition::L1BlockHashesHash,
             LookupCondition::RlpSignTag,
             LookupCondition::RlpHashTag,
             LookupCondition::Keccak,
@@ -788,6 +791,22 @@ impl<F: Field> SubCircuitConfig<F> for TxCircuitConfig<F> {
             cb.gate(and::expr([
                 meta.query_fixed(q_enable, Rotation::cur()),
                 meta.query_advice(is_l1_msg, Rotation::cur()),
+            ]))
+        });
+
+        meta.create_gate("tx_gas_cost == 0 for L1 block hashes", |meta| {
+            let mut cb = BaseConstraintBuilder::default();
+
+            cb.condition(is_tx_gas_cost(meta), |cb| {
+                cb.require_zero(
+                    "tx_gas_cost == 0",
+                    meta.query_advice(tx_table.value, Rotation::cur()),
+                );
+            });
+
+            cb.gate(and::expr([
+                meta.query_fixed(q_enable, Rotation::cur()),
+                meta.query_advice(is_l1_block_hashes, Rotation::cur()),
             ]))
         });
 

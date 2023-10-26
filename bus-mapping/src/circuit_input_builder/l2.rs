@@ -251,6 +251,14 @@ impl CircuitInputBuilder {
                 std::mem::drop(geth_trace);
             });
         }
+
+        // NOTE: we care only about the last block 
+        let has_l1_block_hashes_tx = self.block.last_applied_l1_block != block_trace.last_applied_l1_block;
+        if has_l1_block_hashes_tx {
+          builder_block.block.l1_block_hashes.append(l2_trace.l1_block_hashes.clone());
+        }
+        self.block.last_applied_l1_block = block_trace.last_applied_l1_block;
+
         log::debug!("apply_l2_trace done for block {:?}", block_num);
         //self.sdb.list_accounts();
         Ok(())
@@ -298,6 +306,8 @@ impl CircuitInputBuilder {
         circuits_params: CircuitsParams,
         l2_trace: BlockTrace,
         more: bool,
+        prev_last_applied_11_block: u64,
+        l1_block_range_hash: Vec<u8>,
         light_mode: bool,
     ) -> Result<Self, Error> {
         let chain_id = l2_trace.chain_id;
@@ -362,6 +372,10 @@ impl CircuitInputBuilder {
         builder_block.chain_id = chain_id;
         builder_block.prev_state_root = old_root.to_word();
         builder_block.start_l1_queue_index = l2_trace.start_l1_queue_index;
+        builder_block.prev_last_applied_11_block = prev_last_applied_11_block;
+        builder_block.last_applied_l1_block = prev_last_applied_11_block;
+        builder_block.l1_block_range_hash = l1_block_range_hash;
+
         let mut builder = Self {
             sdb,
             code_db,

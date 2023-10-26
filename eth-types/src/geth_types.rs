@@ -32,6 +32,7 @@ pub enum TxType {
     Eip2930,
     /// L1 Message tx
     L1Msg,
+    L1BlockHashes,
 }
 
 impl From<TxType> for usize {

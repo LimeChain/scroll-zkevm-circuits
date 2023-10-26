@@ -41,6 +41,7 @@ use super::{step::step_convert, Call, ExecStep};
 pub struct Transaction {
     /// The block number in which this tx is included in
     pub block_number: u64,
+    pub last_applied_l1_block: u64,
     /// The transaction identifier in the block
     pub id: usize,
     /// The hash of the transaction
