@@ -1371,7 +1371,7 @@ impl<F: Field> PiCircuitConfig<F> {
             log::info!("public_data.get_pi() {:?}", public_data.get_pi());
             region.assign_advice(|| "pi_hash_rlc", self.rpi_rlc_acc, offset, || pi_hash_rlc)?
         };
-        // self.q_keccak.enable(region, offset)?;
+        self.q_keccak.enable(region, offset)?;
 
         Ok((offset + 1, pi_hash_rlc_cell, connections))
     }
