@@ -1319,20 +1319,20 @@ impl<F: Field> PiCircuitConfig<F> {
         // Copy data_hash value we collected from assigning data bytes.
         region.constrain_equal(data_hash_rlc_cell.cell(), data_hash_cell.cell())?;
 
-        let (tmp_offset, _, _, cells) = self.assign_field(
-            region,
-            offset,
-            &public_data.l1_block_range_hash.to_fixed_bytes(),
-            RpiFieldType::DefaultType,
-            false, // no padding in this case
-            rpi_rlc_acc,
-            rpi_length,
-            challenges,
-        )?;
-        offset = tmp_offset;
-        let l1_block_range_hash_cell = cells[RPI_CELL_IDX].clone();
+        // let (tmp_offset, _, _, cells) = self.assign_field(
+        //     region,
+        //     offset,
+        //     &public_data.l1_block_range_hash.to_fixed_bytes(),
+        //     RpiFieldType::DefaultType,
+        //     false, // no padding in this case
+        //     rpi_rlc_acc,
+        //     rpi_length,
+        //     challenges,
+        // )?;
+        // offset = tmp_offset;
+        // let l1_block_range_hash_cell = cells[RPI_CELL_IDX].clone();
         
-        region.constrain_equal(l1_block_range_hash_rlc_cell.cell(), l1_block_range_hash_cell.cell())?;
+        // region.constrain_equal(l1_block_range_hash_rlc_cell.cell(), l1_block_range_hash_cell.cell())?;
 
         let pi_bytes_rlc = cells[RPI_RLC_ACC_CELL_IDX].clone();
         let pi_bytes_length = cells[RPI_LENGTH_ACC_CELL_IDX].clone();
