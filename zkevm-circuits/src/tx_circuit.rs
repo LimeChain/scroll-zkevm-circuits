@@ -796,25 +796,25 @@ impl<F: Field> SubCircuitConfig<F> for TxCircuitConfig<F> {
             ]))
         });
 
-        meta.create_gate("lookup into Keccak table condition", |meta| {
-            let mut cb = BaseConstraintBuilder::default();
+        // meta.create_gate("lookup into Keccak table condition", |meta| {
+        //     let mut cb = BaseConstraintBuilder::default();
 
-            let is_tag_sign_or_hash = sum::expr([
-                and::expr([
-                    is_sign_length(meta),
-                    not::expr(meta.query_advice(is_l1_msg, Rotation::cur())),
-                    not::expr(meta.query_advice(is_l1_block_hashes, Rotation::cur())),
-                ]),
-                is_hash_length(meta),
-            ]);
-            cb.require_equal(
-                "condition",
-                is_tag_sign_or_hash,
-                meta.query_advice(lookup_conditions[&LookupCondition::Keccak], Rotation::cur()),
-            );
+        //     let is_tag_sign_or_hash = sum::expr([
+        //         and::expr([
+        //             is_sign_length(meta),
+        //             not::expr(meta.query_advice(is_l1_msg, Rotation::cur())),
+        //             not::expr(meta.query_advice(is_l1_block_hashes, Rotation::cur())),
+        //         ]),
+        //         is_hash_length(meta),
+        //     ]);
+        //     cb.require_equal(
+        //         "condition",
+        //         is_tag_sign_or_hash,
+        //         meta.query_advice(lookup_conditions[&LookupCondition::Keccak], Rotation::cur()),
+        //     );
 
-            cb.gate(meta.query_fixed(q_enable, Rotation::cur()))
-        });
+        //     cb.gate(meta.query_fixed(q_enable, Rotation::cur()))
+        // });
 
         // lookups to RLP table, Tx table, Keccak table
         Self::configure_lookups(
@@ -1782,24 +1782,24 @@ impl<F: Field> TxCircuitConfig<F> {
         // lookup Keccak table for tx sign data hash, i.e. the sighash that has to be
         // signed.
         // lookup Keccak table for tx hash too.
-        meta.lookup_any("Keccak table lookup for TxSign and TxHash", |meta| {
-            let enable = and::expr(vec![
-                meta.query_fixed(q_enable, Rotation::cur()),
-                meta.query_advice(lookup_conditions[&LookupCondition::Keccak], Rotation::cur()),
-            ]);
+        // meta.lookup_any("Keccak table lookup for TxSign and TxHash", |meta| {
+        //     let enable = and::expr(vec![
+        //         meta.query_fixed(q_enable, Rotation::cur()),
+        //         meta.query_advice(lookup_conditions[&LookupCondition::Keccak], Rotation::cur()),
+        //     ]);
 
-            vec![
-                1.expr(),                                            // q_enable
-                1.expr(),                                            // is_final
-                meta.query_advice(tx_table.value, Rotation::next()), // input_rlc
-                meta.query_advice(tx_table.value, Rotation::cur()),  // input_len
-                meta.query_advice(tx_table.value, Rotation(2)),      // output_rlc
-            ]
-            .into_iter()
-            .zip(keccak_table.table_exprs(meta))
-            .map(|(arg, table)| (enable.clone() * arg, table))
-            .collect()
-        });
+        //     vec![
+        //         1.expr(),                                            // q_enable
+        //         1.expr(),                                            // is_final
+        //         meta.query_advice(tx_table.value, Rotation::next()), // input_rlc
+        //         meta.query_advice(tx_table.value, Rotation::cur()),  // input_len
+        //         meta.query_advice(tx_table.value, Rotation(2)),      // output_rlc
+        //     ]
+        //     .into_iter()
+        //     .zip(keccak_table.table_exprs(meta))
+        //     .map(|(arg, table)| (enable.clone() * arg, table))
+        //     .collect()
+        // });
     }
 
     /// Assign 1st empty row with tag = Null
