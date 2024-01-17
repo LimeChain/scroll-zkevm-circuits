@@ -1141,7 +1141,7 @@ impl<F: Field> PiCircuitConfig<F> {
                 || data_hash_rlc,
             )?
         };
-        // self.q_keccak.enable(region, offset)?;
+        self.q_keccak.enable(region, offset)?;
 
         Ok((offset + 1, data_hash_rlc_cell))
     }
