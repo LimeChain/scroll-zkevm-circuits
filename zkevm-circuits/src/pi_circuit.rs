@@ -1003,6 +1003,7 @@ impl<F: Field> PiCircuitConfig<F> {
                 &public_data.get_data_hash().to_fixed_bytes(),
                 challenges.evm_word(),
             );
+            log::info!("data_hash: {:?}", &public_data.get_data_hash());
             region.assign_advice(
                 || "data_hash_rlc",
                 self.rpi_rlc_acc,
@@ -1096,6 +1097,9 @@ impl<F: Field> PiCircuitConfig<F> {
         let pi_bytes_rlc = cells[RPI_RLC_ACC_CELL_IDX].clone();
         let pi_bytes_length = cells[RPI_LENGTH_ACC_CELL_IDX].clone();
 
+        log::info!("data_hash_rlc_cell: {:?}", data_hash_rlc_cell.value());
+        log::info!("data_hash_cell: {:?}", data_hash_cell.value());
+
         // Copy data_hash value we collected from assigning data bytes.
         region.constrain_equal(data_hash_rlc_cell.cell(), data_hash_cell.cell())?;
 
@@ -1118,6 +1122,7 @@ impl<F: Field> PiCircuitConfig<F> {
                 &public_data.get_pi().to_fixed_bytes(),
                 challenges.evm_word(),
             );
+            log::info!("pi_hash: {:?}", &public_data.get_pi());
             region.assign_advice(|| "pi_hash_rlc", self.rpi_rlc_acc, offset, || pi_hash_rlc)?
         };
         self.q_keccak.enable(region, offset)?;
@@ -1168,6 +1173,9 @@ impl<F: Field> PiCircuitConfig<F> {
         )?;
         offset = tmp_offset;
         let pi_hash_lo_cells = cells[3..].to_vec();
+
+        log::info!("pi_hash_rlc_cell: {:?}", pi_hash_rlc_cell.value());
+        log::info!("cells[RPI_RLC_ACC_CELL_IDX]: {:?}", cells[RPI_RLC_ACC_CELL_IDX].value());
 
         // Copy pi_hash value we collected from assigning pi bytes.
         region.constrain_equal(pi_hash_rlc_cell.cell(), cells[RPI_RLC_ACC_CELL_IDX].cell())?;
