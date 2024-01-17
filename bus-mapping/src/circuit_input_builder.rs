@@ -903,7 +903,7 @@ fn keccak_inputs_pi_circuit(
         hex::encode(&keccak256(&l1_block_hashes_bytes))
     );
 
-    log::info!("l1_block_range_hash cib bytes {:?}", l1_block_hashes_bytes);
+    log::info!("cib pi_bytes {:?}", hex::encode(&keccak256(&pi_bytes)));
 
     vec![
       data_bytes, 
