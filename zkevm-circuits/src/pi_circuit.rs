@@ -352,7 +352,7 @@ impl BlockContext {
             base_fee: Default::default(),
             history_hashes: vec![],
             eth_block: Default::default(),
-            l1_block_hashes: None,
+            l1_block_hashes: Some(vec![]),
         }
     }
 }
@@ -1141,7 +1141,7 @@ impl<F: Field> PiCircuitConfig<F> {
                 || data_hash_rlc,
             )?
         };
-        self.q_keccak.enable(region, offset)?;
+        // self.q_keccak.enable(region, offset)?;
 
         Ok((offset + 1, data_hash_rlc_cell))
     }
@@ -1230,7 +1230,7 @@ impl<F: Field> PiCircuitConfig<F> {
                 || l1_block_range_hash_rlc,
             )?
         };
-        // self.q_keccak.enable(region, offset)?;
+        self.q_keccak.enable(region, offset)?;
         
         Ok((offset + 1, l1_block_range_hash_rlc_cell))
     }
@@ -1358,7 +1358,7 @@ impl<F: Field> PiCircuitConfig<F> {
             );
             region.assign_advice(|| "pi_hash_rlc", self.rpi_rlc_acc, offset, || pi_hash_rlc)?
         };
-        self.q_keccak.enable(region, offset)?;
+        // self.q_keccak.enable(region, offset)?;
 
         Ok((offset + 1, pi_hash_rlc_cell, connections))
     }
