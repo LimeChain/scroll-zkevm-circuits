@@ -1316,9 +1316,6 @@ impl<F: Field> PiCircuitConfig<F> {
         (offset, rpi_rlc_acc, rpi_length) = (tmp_offset, tmp_rpi_rlc_acc, tmp_rpi_length);
         let data_hash_cell = cells[RPI_CELL_IDX].clone();
 
-        let pi_bytes_rlc = cells[RPI_RLC_ACC_CELL_IDX].clone();
-        let pi_bytes_length = cells[RPI_LENGTH_ACC_CELL_IDX].clone();
-
         // Copy data_hash value we collected from assigning data bytes.
         region.constrain_equal(data_hash_rlc_cell.cell(), data_hash_cell.cell())?;
 
@@ -1336,6 +1333,9 @@ impl<F: Field> PiCircuitConfig<F> {
         let l1_block_range_hash_cell = cells[RPI_CELL_IDX].clone();
         
         region.constrain_equal(l1_block_range_hash_rlc_cell.cell(), l1_block_range_hash_cell.cell())?;
+
+        let pi_bytes_rlc = cells[RPI_RLC_ACC_CELL_IDX].clone();
+        let pi_bytes_length = cells[RPI_LENGTH_ACC_CELL_IDX].clone();
 
         // Assign row for validating lookup to check:
         // pi_hash == keccak256(rlc(pi_bytes))
