@@ -1333,7 +1333,7 @@ impl<F: Field> PiCircuitConfig<F> {
         offset = tmp_offset;
         let l1_block_range_hash_cell = cells[RPI_CELL_IDX].clone();
         
-        region.constrain_equal(l1_block_range_hash_rlc_cell.cell(), l1_block_range_hash_cell.cell())?;
+        // region.constrain_equal(l1_block_range_hash_rlc_cell.cell(), l1_block_range_hash_cell.cell())?;
 
         // Assign row for validating lookup to check:
         // pi_hash == keccak256(rlc(pi_bytes))
@@ -1497,15 +1497,15 @@ impl<F: Field> PiCircuitConfig<F> {
         })
         .collect::<Result<Vec<AssignedCell<F, F>>, Error>>()?;
 
-        // region.constrain_equal(
-        //     rpi_cells[0].cell(),
-        //     rpi_cells[1].cell(),
-        // )?;
+        region.constrain_equal(
+            rpi_cells[0].cell(),
+            rpi_cells[1].cell(),
+        )?;
 
-        // region.constrain_equal(
-        //     rpi_cells[2].cell(),
-        //     rpi_cells[3].cell(),
-        // )?;
+        region.constrain_equal(
+            rpi_cells[2].cell(),
+            rpi_cells[3].cell(),
+        )?;
 
         Ok(offset)
     }
