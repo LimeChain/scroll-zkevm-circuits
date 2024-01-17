@@ -1134,6 +1134,7 @@ impl<F: Field> PiCircuitConfig<F> {
                 &public_data.get_data_hash().to_fixed_bytes(),
                 challenges.evm_word(),
             );
+            println!("data_hash: {:?}", &public_data.get_data_hash());
             region.assign_advice(
                 || "data_hash_rlc",
                 self.rpi_rlc_acc,
@@ -1221,6 +1222,7 @@ impl<F: Field> PiCircuitConfig<F> {
                 &public_data.l1_block_range_hash.to_fixed_bytes(),
                 challenges.evm_word(),
             );
+            println!("l1_block_range_hash: {:?}", &public_data.l1_block_range_hash);
             region.assign_advice(
                 || "l1_block_range_hash_rlc",
                 self.rpi_rlc_acc,
@@ -1317,6 +1319,9 @@ impl<F: Field> PiCircuitConfig<F> {
         let pi_bytes_rlc = cells[RPI_RLC_ACC_CELL_IDX].clone();
         let pi_bytes_length = cells[RPI_LENGTH_ACC_CELL_IDX].clone();
 
+        println!("data_hash_rlc_cell: {:?}", data_hash_rlc_cell.value());
+        println!("data_hash_cell: {:?}", data_hash_cell.value());
+
         // Copy data_hash value we collected from assigning data bytes.
         region.constrain_equal(data_hash_rlc_cell.cell(), data_hash_cell.cell())?;
 
@@ -1332,8 +1337,12 @@ impl<F: Field> PiCircuitConfig<F> {
         )?;
         offset = tmp_offset;
         let l1_block_range_hash_cell = cells[RPI_CELL_IDX].clone();
+
+        println!("l1_block_range_hash_rlc_cell: {:?}", l1_block_range_hash_rlc_cell.value());
+        println!("l1_block_range_hash_cell: {:?}", l1_block_range_hash_cell.value());
         
         region.constrain_equal(l1_block_range_hash_rlc_cell.cell(), l1_block_range_hash_cell.cell())?;
+  
 
         // Assign row for validating lookup to check:
         // pi_hash == keccak256(rlc(pi_bytes))
@@ -1354,6 +1363,7 @@ impl<F: Field> PiCircuitConfig<F> {
                 &public_data.get_pi().to_fixed_bytes(),
                 challenges.evm_word(),
             );
+            println!("pi_hash: {:?}", &public_data.get_pi());
             region.assign_advice(|| "pi_hash_rlc", self.rpi_rlc_acc, offset, || pi_hash_rlc)?
         };
         self.q_keccak.enable(region, offset)?;
@@ -1473,6 +1483,11 @@ impl<F: Field> PiCircuitConfig<F> {
             l1_block_hashes_count =
                 public_data.last_applied_l1_block - public_data.prev_last_applied_l1_block;
         }
+
+        println!("l1_block_hashes_count: {:?}", l1_block_hashes_count);
+        println!("num_all_l1_block_hashes: {:?}", num_all_l1_block_hashes);
+        println!("public_data.last_applied_l1_block: {:?}", public_data.last_applied_l1_block);
+        println!("last_applied_l1_block: {:?}", last_applied_l1_block);
 
         let mut cells = vec![];
         let rpi_cells = [
