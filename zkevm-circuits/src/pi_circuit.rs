@@ -314,7 +314,7 @@ impl PublicData {
     }
 
     fn pi_bytes_end_offset(&self) -> usize {
-        self.pi_bytes_start_offset() + N_BYTES_U64 + N_BYTES_WORD * 5
+        self.pi_bytes_start_offset() + N_BYTES_U64 + N_BYTES_WORD * 4
     }
 
     fn pi_hash_start_offset(&self) -> usize {
