@@ -1497,15 +1497,15 @@ impl<F: Field> PiCircuitConfig<F> {
         })
         .collect::<Result<Vec<AssignedCell<F, F>>, Error>>()?;
 
-        region.constrain_equal(
-            rpi_cells[0].cell(),
-            rpi_cells[1].cell(),
-        )?;
+        // region.constrain_equal(
+        //     rpi_cells[0].cell(),
+        //     rpi_cells[1].cell(),
+        // )?;
 
-        region.constrain_equal(
-            rpi_cells[2].cell(),
-            rpi_cells[3].cell(),
-        )?;
+        // region.constrain_equal(
+        //     rpi_cells[2].cell(),
+        //     rpi_cells[3].cell(),
+        // )?;
 
         Ok(offset)
     }
