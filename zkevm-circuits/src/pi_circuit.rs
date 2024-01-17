@@ -1169,6 +1169,8 @@ impl<F: Field> PiCircuitConfig<F> {
             self.q_not_end.enable(region, q_offset)?;
         }
 
+        log::info!("max_l1_block_hashes: {}", public_data.max_l1_block_hashes);
+
         let num_l1_block_hashes = public_data.get_num_all_l1_block_hashes();
         let l1_block_hashes = public_data.l1_block_hashes.clone();
         let dummy_l1_block_hash = *DUMMY_L1_BLOCK_HASH;
@@ -1228,7 +1230,7 @@ impl<F: Field> PiCircuitConfig<F> {
                 || l1_block_range_hash_rlc,
             )?
         };
-        self.q_keccak.enable(region, offset)?;
+        // self.q_keccak.enable(region, offset)?;
         
         Ok((offset + 1, l1_block_range_hash_rlc_cell))
     }
@@ -1333,7 +1335,7 @@ impl<F: Field> PiCircuitConfig<F> {
         offset = tmp_offset;
         let l1_block_range_hash_cell = cells[RPI_CELL_IDX].clone();
         
-        // region.constrain_equal(l1_block_range_hash_rlc_cell.cell(), l1_block_range_hash_cell.cell())?;
+        region.constrain_equal(l1_block_range_hash_rlc_cell.cell(), l1_block_range_hash_cell.cell())?;
 
         // Assign row for validating lookup to check:
         // pi_hash == keccak256(rlc(pi_bytes))
