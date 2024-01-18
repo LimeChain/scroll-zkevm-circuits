@@ -315,7 +315,7 @@ impl PublicData {
 
     fn pi_bytes_end_offset(&self) -> usize {
         self.pi_bytes_start_offset() + N_BYTES_U64 + N_BYTES_WORD * 5 
-          + 8 // for last_applied_l1_block
+          + N_BYTES_U64 // for last_applied_l1_block
     }
 
     fn pi_hash_start_offset(&self) -> usize {
@@ -337,7 +337,7 @@ impl PublicData {
 
     fn constants_end_offset(&self) -> usize {
         self.constants_start_offset() + N_BYTES_ACCOUNT_ADDRESS + N_BYTES_WORD
-            + 24 // for l1_block_hashes_count, num_all_l1_block_hashes and last_applied_l1_block_from_last_block
+            + 3 * N_BYTES_U64 // for l1_block_hashes_count, num_all_l1_block_hashes and last_applied_l1_block_from_last_block
     }
 }
 
@@ -2073,13 +2073,14 @@ impl<F: Field> SubCircuit<F> for PiCircuit<F> {
             + 1 // for l1 block range hash row
             + 1 // for pi bytes start row
             + N_BYTES_U64 // chain_id
-            + 4 * KECCAK_DIGEST_SIZE // state_roots & data hash
+            + 5 * KECCAK_DIGEST_SIZE // state_roots, data hash and l1_block_range_hash
+            + N_BYTES_U64 // last_applied_l1_block
             + 1 // for pi hash row
             + 1 // for pi hash bytes start row
             + KECCAK_DIGEST_SIZE // pi hash bytes
             + 1 // for coinbase & difficulty start row
             + KECCAK_DIGEST_SIZE // for l1 block range hash
-            + 32 // for l1_block_hashes_count, num_all_l1_block_hashes, last_applied_l1_block and last_applied_l1_block_from_last_block
+            + 3 * N_BYTES_U64 // for l1_block_hashes_count, num_all_l1_block_hashes and last_applied_l1_block_from_last_block
             + N_BYTES_ACCOUNT_ADDRESS
             + N_BYTES_WORD;
 
