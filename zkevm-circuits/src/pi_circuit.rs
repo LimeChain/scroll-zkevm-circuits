@@ -1170,8 +1170,6 @@ impl<F: Field> PiCircuitConfig<F> {
             self.q_not_end.enable(region, q_offset)?;
         }
 
-        log::info!("max_l1_block_hashes: {}", public_data.max_l1_block_hashes);
-
         let num_l1_block_hashes = public_data.get_num_all_l1_block_hashes();
         let l1_block_hashes = public_data.l1_block_hashes.clone();
         let dummy_l1_block_hash = *DUMMY_L1_BLOCK_HASH;
@@ -1370,7 +1368,6 @@ impl<F: Field> PiCircuitConfig<F> {
                 &public_data.get_pi().to_fixed_bytes(),
                 challenges.evm_word(),
             );
-            log::info!("public_data.get_pi() {:?}", public_data.get_pi());
             region.assign_advice(|| "pi_hash_rlc", self.rpi_rlc_acc, offset, || pi_hash_rlc)?
         };
         self.q_keccak.enable(region, offset)?;
@@ -1422,7 +1419,6 @@ impl<F: Field> PiCircuitConfig<F> {
         offset = tmp_offset;
         let pi_hash_lo_cells = cells[3..].to_vec();
 
-        log::info!("pi_hash_rlc_cell.cell() {:?}", pi_hash_rlc_cell.value());
         // Copy pi_hash value we collected from assigning pi bytes.
         region.constrain_equal(pi_hash_rlc_cell.cell(), cells[RPI_RLC_ACC_CELL_IDX].cell())?;
 
