@@ -1322,7 +1322,7 @@ impl<F: Field> PiCircuitConfig<F> {
             region,
             offset,
             &public_data.l1_block_range_hash.to_fixed_bytes(),
-            RpiFieldType::Constant,
+            RpiFieldType::DefaultType,
             false, // no padding in this case
             rpi_rlc_acc,
             rpi_length,
