@@ -314,7 +314,8 @@ impl PublicData {
     }
 
     fn pi_bytes_end_offset(&self) -> usize {
-        self.pi_bytes_start_offset() + N_BYTES_U64 + N_BYTES_WORD * 5 + 8
+        self.pi_bytes_start_offset() + N_BYTES_U64 + N_BYTES_WORD * 5 
+          + 8 // for last_applied_l1_block
     }
 
     fn pi_hash_start_offset(&self) -> usize {
@@ -336,7 +337,7 @@ impl PublicData {
 
     fn constants_end_offset(&self) -> usize {
         self.constants_start_offset() + N_BYTES_ACCOUNT_ADDRESS + N_BYTES_WORD
-            + 32 // for l1_block_hashes_count, num_all_l1_block_hashes, last_applied_l1_block and last_applied_l1_block_from_last_block
+            + 24 // for l1_block_hashes_count, num_all_l1_block_hashes and last_applied_l1_block_from_last_block
     }
 }
 
@@ -935,7 +936,7 @@ impl<F: Field> PiCircuitConfig<F> {
         debug_assert_eq!(offset, public_data.pi_bytes_start_offset());
 
         // 3. Assign public input bytes.
-        let (offset, pi_hash_rlc_cell, connections) = self.assign_pi_bytes(
+        let (offset, last_applied_l1_block_cell, pi_hash_rlc_cell, connections) = self.assign_pi_bytes(
             region,
             offset,
             public_data,
@@ -954,7 +955,7 @@ impl<F: Field> PiCircuitConfig<F> {
 
         // 5. Assign block coinbase and difficulty.
         let offset =
-            self.assign_constants(region, offset, public_data, block_value_cells, challenges)?;
+            self.assign_constants(region, offset, public_data, &last_applied_l1_block_cell, block_value_cells, challenges)?;
         debug_assert_eq!(offset, public_data.constants_end_offset() + 1);
 
         Ok((pi_hash_cells, connections))
@@ -1249,7 +1250,7 @@ impl<F: Field> PiCircuitConfig<F> {
         data_hash_rlc_cell: &AssignedCell<F, F>,
         l1_block_range_hash_rlc_cell: &AssignedCell<F, F>,
         challenges: &Challenges<Value<F>>,
-    ) -> Result<(usize, AssignedCell<F, F>, Connections<F>), Error> {
+    ) -> Result<(usize, AssignedCell<F, F>, AssignedCell<F, F>, Connections<F>), Error> {
         let (mut offset, mut rpi_rlc_acc, mut rpi_length) = self.assign_rlc_init(region, offset)?;
 
         // Enable RLC accumulator consistency check throughout the above rows.
@@ -1323,7 +1324,7 @@ impl<F: Field> PiCircuitConfig<F> {
             region,
             offset,
             &public_data.l1_block_range_hash.to_fixed_bytes(),
-            RpiFieldType::DefaultType,
+            RpiFieldType::Constant,
             false, // no padding in this case
             rpi_rlc_acc,
             rpi_length,
@@ -1345,6 +1346,7 @@ impl<F: Field> PiCircuitConfig<F> {
             challenges,
         )?;
         offset = tmp_offset;
+        let last_applied_l1_block_cell = cells[RPI_CELL_IDX].clone();
 
         let pi_bytes_rlc = cells[RPI_RLC_ACC_CELL_IDX].clone();
         let pi_bytes_length = cells[RPI_LENGTH_ACC_CELL_IDX].clone();
@@ -1373,7 +1375,7 @@ impl<F: Field> PiCircuitConfig<F> {
         };
         self.q_keccak.enable(region, offset)?;
 
-        Ok((offset + 1, pi_hash_rlc_cell, connections))
+        Ok((offset + 1, last_applied_l1_block_cell, pi_hash_rlc_cell, connections))
     }
 
     /// Assign the (hi, lo) decomposition of pi_hash.
@@ -1433,6 +1435,7 @@ impl<F: Field> PiCircuitConfig<F> {
         region: &mut Region<'_, F>,
         offset: usize,
         public_data: &PublicData,
+        last_applied_l1_block_cell: &AssignedCell<F, F>,
         block_value_cells: &[AssignedCell<F, F>],
         challenges: &Challenges<Value<F>>,
     ) -> Result<usize, Error> {
@@ -1494,7 +1497,6 @@ impl<F: Field> PiCircuitConfig<F> {
         let rpi_cells = [
             l1_block_hashes_count.to_be_bytes().to_vec(),
             num_all_l1_block_hashes.to_be_bytes().to_vec(),
-            public_data.last_applied_l1_block.to_be_bytes().to_vec(),
             last_applied_l1_block.map(|blk| blk.as_u64()).unwrap_or(0).to_be_bytes().to_vec(),
         ]
         .iter()
@@ -1519,8 +1521,8 @@ impl<F: Field> PiCircuitConfig<F> {
         )?;
 
         region.constrain_equal(
+            last_applied_l1_block_cell.cell(),
             rpi_cells[2].cell(),
-            rpi_cells[3].cell(),
         )?;
 
         Ok(offset)
