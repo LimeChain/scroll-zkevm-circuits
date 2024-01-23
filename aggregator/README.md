@@ -134,7 +134,7 @@ This is done via comparing the `data_rlc` of `chunk_{i-1}` and ` chunk_{i}`.
 Our keccak table uses $2^{19}$ rows. Each keccak round takes `300` rows. When the number of round is less than $2^{19}/300$, the cell manager will fill in the rest of the rows with dummy hashes. 
 
 The only hash that uses a dynamic number of rounds is the last hash. 
-Suppose we target for `MAX_AGG_SNARK = 10`. Then, the last hash function will take no more than `32 * 10 /136 = 2` rounds. 
+Suppose we target for `MAX_AGG_SNARK = 10`. Then, the last hash function will take no more than `32 * 10 /136 = 3` rounds. 
 
 We also know in the circuit if a chunk is an empty one or not. This is given by a flag `is_padding`. 
 
