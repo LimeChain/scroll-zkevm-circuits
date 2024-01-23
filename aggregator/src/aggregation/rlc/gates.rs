@@ -98,7 +98,7 @@ impl RlcConfig {
         }
     }
     #[inline]
-    pub(crate) fn one_hundred_and_thirty_six_cell(&self, region_index: RegionIndex) -> Cell {
+    pub(crate) fn one_hundred_and_seventy_six_cell(&self, region_index: RegionIndex) -> Cell {
         Cell {
             region_index,
             row_offset: 7,

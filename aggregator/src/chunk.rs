@@ -118,8 +118,7 @@ impl ChunkHash {
         r.fill_bytes(&mut withdraw_root);
         let mut data_hash = [0u8; 32];
         r.fill_bytes(&mut data_hash);
-        let mut l1_block_range_hash = [0u8; 32];
-        r.fill_bytes(&mut l1_block_range_hash);
+        let l1_block_range_hash = H256(keccak256(vec![]));
         Self {
             chain_id: 0,
             prev_state_root: prev_state_root.into(),
@@ -127,7 +126,7 @@ impl ChunkHash {
             withdraw_root: withdraw_root.into(),
             data_hash: data_hash.into(),
             last_applied_l1_block: 0,
-            l1_block_range_hash: l1_block_range_hash.into(),
+            l1_block_range_hash: l1_block_range_hash,
             is_padding: false,
         }
     }
