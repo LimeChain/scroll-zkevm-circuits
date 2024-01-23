@@ -21,10 +21,10 @@ impl RlcConfig {
         region.assign_fixed(|| "const 13", self.fixed, 5, || Value::known(Fr::from(13)))?;
         region.assign_fixed(|| "const 32", self.fixed, 6, || Value::known(Fr::from(32)))?;
         region.assign_fixed(
-            || "const 136",
+            || "const 176",
             self.fixed,
             7,
-            || Value::known(Fr::from(136)),
+            || Value::known(Fr::from(176)),
         )?;
         region.assign_fixed(
             || "const 2^32",
