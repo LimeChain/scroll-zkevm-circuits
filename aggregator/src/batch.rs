@@ -223,14 +223,14 @@ impl BatchHash {
         res.push(batch_data_hash_preimage);
 
         // batchL1BlockRangeHash = keccak(chunk[0].l1BlockRangeHash || ... || chunk[k-1].l1BlockRangeHash)
-        let batch_l1_block_range_hash_preimage = self
-            .chunks_with_padding
-            .iter()
-            .take(self.number_of_valid_chunks)
-            .flat_map(|x| x.l1_block_range_hash.as_bytes().iter())
-            .cloned()
-            .collect();
-        res.push(batch_l1_block_range_hash_preimage);
+        // let batch_l1_block_range_hash_preimage = self
+        //     .chunks_with_padding
+        //     .iter()
+        //     .take(self.number_of_valid_chunks)
+        //     .flat_map(|x| x.l1_block_range_hash.as_bytes().iter())
+        //     .cloned()
+        //     .collect();
+        // res.push(batch_l1_block_range_hash_preimage);
 
         res
     }
