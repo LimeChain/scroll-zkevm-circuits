@@ -256,7 +256,7 @@ impl Circuit<Fr> for AggregationCircuit {
             let preimages = self.batch_hash.extract_hash_preimages();
             assert_eq!(
                 preimages.len(),
-                MAX_AGG_SNARKS + 3,
+                MAX_AGG_SNARKS + 2,
                 "error extracting preimages"
             );
             end_timer!(timer);
