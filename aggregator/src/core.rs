@@ -316,7 +316,7 @@ pub(crate) fn extract_hash_cells(
                     hash_input_cells.len(),
                     max_keccak_updates * INPUT_LEN_PER_ROUND
                 );
-                assert_eq!(hash_output_cells.len(), (MAX_AGG_SNARKS + 4) * DIGEST_LEN);
+                assert_eq!(hash_output_cells.len(), (MAX_AGG_SNARKS + 5) * DIGEST_LEN);
 
                 keccak_config
                     .keccak_table
