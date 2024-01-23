@@ -151,14 +151,14 @@ impl ChunkHash {
     }
 
     /// Public input hash for a given chunk is defined as
-    ///  keccak( chain id || prev state root || post state root || withdraw root || data hash || l1_block_range_hash || last_applied_l1_block )
+    ///  keccak( chain id || prev state root || post state root || withdraw root || data hash || last_applied_l1_block || l1_block_range_hash)
     pub fn public_input_hash(&self) -> H256 {
         let preimage = self.extract_hash_preimage();
         keccak256::<&[u8]>(preimage.as_ref()).into()
     }
 
     /// Extract the preimage for the hash
-    ///  chain id || prev state root || post state root || withdraw root || data hash || l1_block_range_hash || last_applied_l1_block
+    ///  chain id || prev state root || post state root || withdraw root || data hash || last_applied_l1_block || l1_block_range_hash
     pub fn extract_hash_preimage(&self) -> Vec<u8> {
         [
             self.chain_id.to_be_bytes().as_ref(),
@@ -166,8 +166,8 @@ impl ChunkHash {
             self.post_state_root.as_bytes(),
             self.withdraw_root.as_bytes(),
             self.data_hash.as_bytes(),
-            self.l1_block_range_hash.as_bytes(),
             self.last_applied_l1_block.to_be_bytes().as_ref(),
+            self.l1_block_range_hash.as_bytes(),
         ]
         .concat()
     }
