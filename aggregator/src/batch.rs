@@ -140,8 +140,8 @@ impl BatchHash {
                 .withdraw_root
                 .as_bytes(),
             batch_data_hash.as_slice(),
-            chunks_with_padding[MAX_AGG_SNARKS - 1].last_applied_l1_block.to_be_bytes().as_ref(),
-            batch_l1_block_range_hash.as_slice(),
+            // chunks_with_padding[MAX_AGG_SNARKS - 1].last_applied_l1_block.to_be_bytes().as_ref(),
+            // batch_l1_block_range_hash.as_slice(),
         ]
         .concat();
         let public_input_hash = keccak256(preimage);
@@ -186,8 +186,8 @@ impl BatchHash {
                 .withdraw_root
                 .as_bytes(),
             self.data_hash.as_bytes(),
-            self.chunks_with_padding[MAX_AGG_SNARKS - 1].last_applied_l1_block.to_be_bytes().as_ref(),
-            self.l1_block_range_hash.as_bytes(),
+            // self.chunks_with_padding[MAX_AGG_SNARKS - 1].last_applied_l1_block.to_be_bytes().as_ref(),
+            // self.l1_block_range_hash.as_bytes(),
         ]
         .concat();
         res.push(batch_public_input_hash_preimage);
