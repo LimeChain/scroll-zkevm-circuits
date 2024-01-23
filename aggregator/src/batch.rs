@@ -205,8 +205,8 @@ impl BatchHash {
                 chunk.post_state_root.as_bytes(),
                 chunk.withdraw_root.as_bytes(),
                 chunk.data_hash.as_bytes(),
-                chunk.l1_block_range_hash.as_bytes(),
-                chunk.last_applied_l1_block.to_be_bytes().as_ref(),
+                // chunk.l1_block_range_hash.as_bytes(),
+                // chunk.last_applied_l1_block.to_be_bytes().as_ref(),
             ]
             .concat();
             res.push(chunk_public_input_hash_preimage)
