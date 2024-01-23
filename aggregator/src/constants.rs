@@ -25,12 +25,15 @@ pub(crate) const LOG_DEGREE: u32 = 19;
 // - post_state_root    32 bytes
 // - withdraw_root      32 bytes
 // - chunk_data_hash    32 bytes
-//
+// - l1_block_range_hash 32 bytes
+// - last_appiled_l1_block 8 bytes
 
 pub(crate) const PREV_STATE_ROOT_INDEX: usize = 8;
 pub(crate) const POST_STATE_ROOT_INDEX: usize = 40;
 pub(crate) const WITHDRAW_ROOT_INDEX: usize = 72;
 pub(crate) const CHUNK_DATA_HASH_INDEX: usize = 104;
+// pub(crate) const L1_BLOCK_RANGE_HASH_INDEX: usize = 136;
+// pub(crate) const LAST_APPLIED_L1_BLOCK_INDEX: usize = 168;
 
 // ================================
 // aggregator parameters

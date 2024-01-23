@@ -47,7 +47,7 @@ pub(crate) fn get_indices(preimages: &[Vec<u8>]) -> (Vec<usize>, Vec<usize>) {
     let inner_round_rows = get_num_rows_per_round();
 
     for preimage in preimages.iter().take(MAX_AGG_SNARKS + 1) {
-        //  136 = 17 * 8 is the size in bytes of each
+        //  136 = 22 * 8 is the size in bytes of each
         //  input chunk that can be processed by Keccak circuit using absorb
 
         //  For example, if num_rows_per_inner_round for Keccak is 12, then
