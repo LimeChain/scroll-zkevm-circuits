@@ -231,8 +231,8 @@ impl PublicData {
             .chain(self.withdraw_trie_root.to_fixed_bytes())
             // data hash
             .chain(data_hash.to_fixed_bytes())
-            // .chain(self.l1_block_range_hash.to_fixed_bytes())
-            // .chain(self.last_applied_l1_block.to_be_bytes())
+            .chain(self.l1_block_range_hash.to_fixed_bytes())
+            .chain(self.last_applied_l1_block.to_be_bytes())
             .collect::<Vec<u8>>()
     }
 
