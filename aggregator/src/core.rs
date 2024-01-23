@@ -469,11 +469,6 @@ fn copy_constraints(
                             )
                             .as_str(),
                         )?;
-                        assert_eq!(
-                            lhs.value(),
-                            rhs.value(),
-                            "assert 3"
-                        );
                         region.constrain_equal(lhs.cell(), rhs.cell())?;
                     }
                 }
@@ -712,12 +707,6 @@ pub(crate) fn conditional_constraints(
                             &mut offset,
                         )?;
 
-                         assert_eq!(
-                            rhs.value(),
-                            batch_pi_hash_preimage[i * 8 + j + CHUNK_DATA_HASH_INDEX].value(),
-                            "assert 1"
-                        );
-
                         region.constrain_equal(
                             batch_pi_hash_preimage[i * 8 + j + CHUNK_DATA_HASH_INDEX].cell(),
                             rhs.cell(),
@@ -910,11 +899,6 @@ pub(crate) fn conditional_constraints(
                     )
                     .as_str(),
                 )?;
-                assert_eq!(
-                    data_hash_inputs_len.value(),
-                    data_hash_inputs_len_rec.value(),
-                    "assert 2"
-                );
                 region.constrain_equal(
                     data_hash_inputs_len.cell(),
                     data_hash_inputs_len_rec.cell(),
