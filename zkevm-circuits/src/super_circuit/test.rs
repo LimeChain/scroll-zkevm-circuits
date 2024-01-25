@@ -266,7 +266,7 @@ pub fn get_block_trace_from_file<P: AsRef<Path>>(path: P) -> BlockTrace {
     let dir_path = env::current_exe()
         .unwrap()
         .parent()
-        .unwrap_or_else(|| Path::new(""));
+        .unwrap();
     println!("The executable is in {:?}", dir_path.clone().display());
 
     let mut file_path = PathBuf::from(dir_path);
@@ -274,7 +274,7 @@ pub fn get_block_trace_from_file<P: AsRef<Path>>(path: P) -> BlockTrace {
     println!("The path is {:?}", file_path.clone().display());
 
     let mut buffer = Vec::new();
-    let mut f = File::open(&path).unwrap();
+    let mut f = File::open(file_path.as_path()).unwrap();
     f.read_to_end(&mut buffer).unwrap();
 
     let mut trace = serde_json::from_slice::<BlockTrace>(&buffer).unwrap_or_else(|e1| {
