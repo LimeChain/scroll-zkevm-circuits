@@ -214,6 +214,8 @@ impl CircuitInputBuilder {
             dump_code_db(&self.code_db);
         }
 
+        println!("block_trace {:?}", &block_trace);
+
         let eth_block = EthBlock::from(&block_trace);
         let geth_trace: Vec<eth_types::GethExecTrace> = block_trace
             .execution_results
