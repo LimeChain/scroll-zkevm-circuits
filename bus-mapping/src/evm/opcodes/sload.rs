@@ -61,6 +61,7 @@ impl Opcode for Sload {
         // Storage read
         let value_from_statedb = *state.sdb.get_storage(&contract_addr, &key).1;
         {
+            println!("sload: value_from_statedb: {:?}", key.to_string());
             let value_from_step = geth_step.storage.get_or_err(&key)?;
             let value_from_stack = geth_steps[1].stack.last().unwrap();
             if !(value_from_step == value_from_statedb && value_from_step == value_from_stack) {
