@@ -15,12 +15,24 @@ use mock::MOCK_DIFFICULTY_L2GETH as MOCK_DIFFICULTY;
 use mock::{eth, TestContext, MOCK_CHAIN_ID};
 use rand::SeedableRng;
 use rand_chacha::ChaCha20Rng;
-use std::env::set_var;
+use std::{
+    env::set_var,
+    fs::{self, metadata, File},
+    io::{BufReader, Read},
+    path::{Path, PathBuf},
+    str::FromStr,
+    sync::Once,
+};
 
 use crate::witness::block_apply_mpt_state;
 #[cfg(feature = "scroll")]
 use eth_types::l2_types::BlockTrace;
-use eth_types::{address, bytecode, word, Bytecode, ToWord, Word};
+use eth_types::{address, bytecode, word, Address, Bytecode, ToWord, Word};
+
+#[cfg(feature = "scroll")]
+pub struct BlockTraceJsonRpcResult {
+    pub result: BlockTrace,
+}
 
 #[test]
 fn super_circuit_created_from_dummy_block() {
@@ -247,6 +259,7 @@ pub(crate) fn block_2tx() -> GethData {
 
 const TEST_MOCK_RANDOMNESS: u64 = 0x100;
 
+#[cfg(feature = "scroll")]
 pub fn get_block_trace_from_file<P: AsRef<Path>>(path: P) -> BlockTrace {
     let mut buffer = Vec::new();
     let mut f = File::open(&path).unwrap();
@@ -301,7 +314,7 @@ pub fn get_block_trace_from_file<P: AsRef<Path>>(path: P) -> BlockTrace {
 #[test]
 fn serial_test_super_circuit_1tx_1max_tx() {
     let block = get_block_trace_from_file("./new.json");
-    
+
     test_super_circuit::<MAX_TXS, MAX_CALLDATA, MAX_INNER_BLOCKS, TEST_MOCK_RANDOMNESS>(
         block,
         circuits_params,
