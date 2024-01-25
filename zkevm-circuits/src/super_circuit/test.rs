@@ -23,6 +23,7 @@ use std::{
     str::FromStr,
     sync::Once,
 };
+use serde::{Deserialize, Serialize};
 
 use crate::witness::block_apply_mpt_state;
 #[cfg(feature = "scroll")]
@@ -30,6 +31,7 @@ use eth_types::l2_types::BlockTrace;
 use eth_types::{address, bytecode, word, Address, Bytecode, ToWord, Word};
 
 #[cfg(feature = "scroll")]
+#[derive(Deserialize, Serialize, Default, Debug, Clone)]
 pub struct BlockTraceJsonRpcResult {
     pub result: BlockTrace,
 }
