@@ -220,6 +220,8 @@ impl CircuitInputBuilder {
             .into_iter()
             .map(From::from)
             .collect();
+
+        println!("geth_trace {:?}", &geth_trace);
         assert_eq!(
             self.block.chain_id, block_trace.chain_id,
             "unexpected chain id in new block_trace"
