@@ -33,7 +33,7 @@ pub static MOCK_GASLIMIT: LazyLock<Word> = LazyLock::new(|| Word::from(0x2386f26
 /// Mock chain ID value
 pub static MOCK_CHAIN_ID: u64 = 222222;
 /// Mock last applied L1 block value
-pub static MOCK_LAST_APPLIED_L1_BLOCK: u64 = 0;
+pub static MOCK_LAST_APPLIED_L1_BLOCK: u64 = 33;
 /// Mock DIFFICULTY value
 pub static MOCK_DIFFICULTY: LazyLock<Word> = LazyLock::new(|| Word::from(0x200000u64));
 /// Mock DIFFICULTY value for l2geth (always 0)
