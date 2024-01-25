@@ -10,7 +10,7 @@ use eth_types::{
     l2_types::{BlockTrace, EthBlock, ExecStep, StorageTrace},
     Address, ToAddress, ToWord, Word, H256,
 };
-use ethers_core::types::Bytes;
+use ethers_core::{types::Bytes, utils::keccak256};
 use mpt_zktrie::state::{AccountData, ZktrieState};
 use std::collections::hash_map::{Entry, HashMap};
 

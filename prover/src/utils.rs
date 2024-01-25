@@ -4,14 +4,13 @@ use crate::{
 };
 use anyhow::{bail, Result};
 use chrono::Utc;
-use eth_types::{l2_types::{BlockTrace, ChunkTrace}, Address, H256};
+use eth_types::{l2_types::{BlockTrace, ChunkTrace}, Address};
 use git_version::git_version;
 use halo2_proofs::{
     halo2curves::bn256::{Bn256, Fr},
     poly::kzg::commitment::ParamsKZG,
     SerdeFormat,
 };
-use ethers_core::utils::keccak256;
 use log::LevelFilter;
 use log4rs::{
     append::{
