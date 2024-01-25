@@ -347,6 +347,7 @@ impl CircuitInputBuilder {
             &l2_trace.storage_trace,
         )) {
             let ((addr, key), val) = parsed.map_err(Error::IoError)?;
+            println!("set storage 1 {:?} {:?} {:?}", addr, key, val);
             *sdb.get_storage_mut(&addr, &key).1 = val.into();
         }
 
@@ -422,12 +423,14 @@ impl CircuitInputBuilder {
             HashMap::new(),
             |mut m, parsed| -> Result<HashMap<(Address, Word), Word>, Error> {
                 let ((addr, key), val) = parsed.map_err(Error::IoError)?;
+                println!("set storage 2 {:?} {:?} {:?}", addr, key, val);
                 m.insert((addr, key), val.into());
                 Ok(m)
             },
         )?;
 
         for ((addr, key), val) in new_storages {
+            println!("set storage 3 {:?} {:?} {:?}", addr, key, val);
             *self.sdb.get_storage_mut(&addr, &key).1 = val;
         }
 
