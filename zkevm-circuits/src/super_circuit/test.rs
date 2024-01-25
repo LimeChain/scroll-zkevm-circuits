@@ -80,7 +80,7 @@ fn test_super_circuit<
     l2_trace: BlockTrace,
     circuits_params: CircuitsParams,
 ) {
-    set_var("COINBASE", "0x0000000000000000000000000000000000000000");
+    set_var("COINBASE", "0x5300000000000000000000000000000000000005");
     set_var("CHAIN_ID", MOCK_CHAIN_ID.to_string());
     let mut difficulty_be_bytes = [0u8; 32];
     MOCK_DIFFICULTY.to_big_endian(&mut difficulty_be_bytes);
