@@ -651,10 +651,7 @@ impl<'de> Deserialize<'de> for GethExecStep {
             storage: Storage(
                 s.storage
                     .iter()
-                    .map(|(k, v)| {
-                      print!("------------------------ k: {:?}, v: {:?}", k, v);
-                      (k.to_word(), v.to_word())
-                    })
+                    .map(|(k, v)| (k.to_word(), v.to_word()))
                     .collect(),
             ),
         })
