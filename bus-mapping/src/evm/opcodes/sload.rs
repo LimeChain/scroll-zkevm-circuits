@@ -62,9 +62,10 @@ impl Opcode for Sload {
         let value_from_statedb = *state.sdb.get_storage(&contract_addr, &key).1;
         {
             log::trace!(
-                "-----------------sload address {:?} key {:?}",
+                "sload address {:?} key {:?} storage {:?}",
                 contract_addr,
-                key
+                key,
+                geth_step.storage.0,
             );
             let value_from_step = geth_step.storage.get_or_err(&key)?;
             let value_from_stack = geth_steps[1].stack.last().unwrap();
