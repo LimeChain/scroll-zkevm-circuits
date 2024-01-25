@@ -5828,6 +5828,7 @@ name = "zkevm-circuits"
 version = "0.1.0"
 dependencies = [
  "array-init",
+ "backtrace",
  "bus-mapping",
  "cli-table",
  "criterion",

@@ -1,5 +1,7 @@
 #![allow(unused_imports)]
 pub use super::*;
+use anyhow::{Context, Result};
+use backtrace::Backtrace;
 use bus_mapping::{
     circuit_input_builder::CircuitInputBuilder,
     evm::{OpcodeId, PrecompileCallArgs},
@@ -87,11 +89,14 @@ fn test_super_circuit<
     let mut builder =
         CircuitInputBuilder::new_from_l2_trace(circuits_params, l2_trace, false, false);
 
-    if builder.is_err() {
+    if let Err(e) = builder {
+        println!("Error: {:?}", e);
+        let backtrace = Backtrace::new();
+        println!("Backtrace:\n{:?}", backtrace);
         panic!("could not build circuit input: {:?}", builder.err());
     }
 
-    let mut builder = builder.unwrap();
+    let builder = builder.unwrap();
 
     builder
         .finalize_building()
