@@ -73,7 +73,7 @@ impl Opcode for Sload {
                 geth_step.storage,
                 value_from_step,
             );
-            panic!("here");
+            // panic!("here");
             if !(value_from_step == value_from_statedb && value_from_step == value_from_stack) {
                 panic!("inconsistent sload: step proof {value_from_step:?}, local statedb {value_from_statedb:?}, result {value_from_stack:?} in contract {contract_addr:?}, key {key:?}", );
             }
