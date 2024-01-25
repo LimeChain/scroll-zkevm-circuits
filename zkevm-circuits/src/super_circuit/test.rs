@@ -247,31 +247,61 @@ pub(crate) fn block_2tx() -> GethData {
 
 const TEST_MOCK_RANDOMNESS: u64 = 0x100;
 
+pub fn get_block_trace_from_file<P: AsRef<Path>>(path: P) -> BlockTrace {
+    let mut buffer = Vec::new();
+    let mut f = File::open(&path).unwrap();
+    f.read_to_end(&mut buffer).unwrap();
+
+    let mut trace = serde_json::from_slice::<BlockTrace>(&buffer).unwrap_or_else(|e1| {
+        serde_json::from_slice::<BlockTraceJsonRpcResult>(&buffer)
+            .map_err(|e2| {
+                panic!(
+                    "unable to load BlockTrace from {:?}, {:?}, {:?}",
+                    path.as_ref(),
+                    e1,
+                    e2
+                )
+            })
+            .unwrap()
+            .result
+    });
+    // fill intrinsicStorageProofs into tx storage proof
+    let addrs = vec![
+        Address::from_str("0x5300000000000000000000000000000000000000").unwrap(),
+        Address::from_str("0x5300000000000000000000000000000000000002").unwrap(),
+    ];
+    for tx_storage_trace in &mut trace.tx_storage_trace {
+        if let Some(proof) = tx_storage_trace.proofs.as_mut() {
+            for addr in &addrs {
+                proof.insert(
+                    *addr,
+                    trace
+                        .storage_trace
+                        .proofs
+                        .as_ref()
+                        .map(|p| p[addr].clone())
+                        .unwrap(),
+                );
+            }
+        }
+        for addr in &addrs {
+            tx_storage_trace
+                .storage_proofs
+                .insert(*addr, trace.storage_trace.storage_proofs[addr].clone());
+        }
+    }
+
+    trace
+}
+
 // High memory usage test.  Run in serial with:
 // `cargo test [...] serial_ -- --ignored --test-threads 1`
 #[ignore]
 #[cfg(feature = "scroll")]
 #[test]
 fn serial_test_super_circuit_1tx_1max_tx() {
-    let block = block_1tx_trace();
-    const MAX_TXS: usize = 1;
-    const MAX_CALLDATA: usize = 256;
-    const MAX_INNER_BLOCKS: usize = 1;
-    let circuits_params = CircuitsParams {
-        max_txs: MAX_TXS,
-        max_calldata: MAX_CALLDATA,
-        max_rws: 256,
-        max_copy_rows: 256,
-        max_exp_steps: 256,
-        max_bytecode: 512,
-        max_mpt_rows: 2049,
-        max_poseidon_rows: 512,
-        max_evm_rows: 0,
-        max_keccak_rows: 0,
-        max_inner_blocks: MAX_INNER_BLOCKS,
-        max_rlp_rows: 500,
-        ..Default::default()
-    };
+    let block = get_block_trace_from_file("./new.json");
+    
     test_super_circuit::<MAX_TXS, MAX_CALLDATA, MAX_INNER_BLOCKS, TEST_MOCK_RANDOMNESS>(
         block,
         circuits_params,
