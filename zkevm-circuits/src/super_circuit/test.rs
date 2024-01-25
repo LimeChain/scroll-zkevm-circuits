@@ -315,7 +315,7 @@ pub fn get_block_trace_from_file<P: AsRef<Path>>(path: P) -> BlockTrace {
 #[cfg(feature = "scroll")]
 #[test]
 fn serial_test_super_circuit_1tx_1max_tx() {
-    let block = get_block_trace_from_file("./new.json");
+    let block = block_1tx_trace();
     const MAX_TXS: usize = 1;
     const MAX_CALLDATA: usize = 256;
     const MAX_INNER_BLOCKS: usize = 1;
@@ -376,7 +376,7 @@ fn serial_test_super_circuit_1tx_deploy_2max_tx() {
 #[cfg(feature = "scroll")]
 #[test]
 fn serial_test_super_circuit_1tx_2max_tx() {
-    let block = block_1tx_trace();
+    let block = get_block_trace_from_file("zkevm-circuits/src/super_circuit/new.json");
     const MAX_TXS: usize = 2;
     const MAX_CALLDATA: usize = 256;
     const MAX_INNER_BLOCKS: usize = 1;
