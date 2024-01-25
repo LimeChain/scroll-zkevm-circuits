@@ -267,11 +267,11 @@ pub fn get_block_trace_from_file<P: AsRef<Path>>(path: P) -> BlockTrace {
         .unwrap()
         .parent()
         .unwrap_or_else(|| Path::new(""));
-    println!("The executable is in {}", dir_path.display());
+    println!("The executable is in {:?}", dir_path.display());
 
     let mut file_path = PathBuf::from(dir_path);
     file_path.push(path);
-    println!("The path is {}", file_path.as_ref());
+    println!("The path is {:?}", file_path.as_ref());
 
     let mut buffer = Vec::new();
     let mut f = File::open(&path).unwrap();
