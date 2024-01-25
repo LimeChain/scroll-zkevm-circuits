@@ -91,6 +91,8 @@ fn test_super_circuit<
         panic!("could not build circuit input: {:?}", builder.err());
     }
 
+    let mut builder = builder.unwrap();
+
     builder
         .finalize_building()
         .expect("could not finalize building block");
