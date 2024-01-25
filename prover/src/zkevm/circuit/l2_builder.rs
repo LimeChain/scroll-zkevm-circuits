@@ -300,9 +300,9 @@ pub fn block_traces_to_witness_block(
         )?;
         builder
             .apply_l1_block_hashes(
-                Some(prev_last_applied_l1_block),
-                Some(last_applied_l1_block),
-                Some(l1_block_range_hash),
+                prev_last_applied_l1_block,
+                last_applied_l1_block,
+                l1_block_range_hash,
             )
             .expect("could not apply l1 block hashes");
         let witness = block_traces_to_witness_block_with_updated_state(
