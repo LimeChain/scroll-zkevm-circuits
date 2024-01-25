@@ -264,6 +264,7 @@ const TEST_MOCK_RANDOMNESS: u64 = 0x100;
 #[cfg(feature = "scroll")]
 pub fn get_block_trace_from_file<P: AsRef<Path>>(path: P) -> BlockTrace {
     let dir_path = env::current_exe()
+        .ok()
         .unwrap()
         .parent()
         .unwrap();
@@ -282,7 +283,7 @@ pub fn get_block_trace_from_file<P: AsRef<Path>>(path: P) -> BlockTrace {
             .map_err(|e2| {
                 panic!(
                     "unable to load BlockTrace from {:?}, {:?}, {:?}",
-                    path.as_ref(),
+                    file_path.as_path(),
                     e1,
                     e2
                 )
