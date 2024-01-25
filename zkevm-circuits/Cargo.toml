@@ -8,6 +8,8 @@ license.workspace = true
 
 [dependencies]
 backtrace = "0.3"
+anyhow = "1.0"
+
 halo2_proofs.workspace = true
 num.workspace = true
 sha3.workspace = true
