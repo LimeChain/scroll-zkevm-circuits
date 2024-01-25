@@ -32,8 +32,6 @@ use mock::MOCK_LAST_APPLIED_L1_BLOCK;
 use eth_types::geth_types::TxType;
 #[cfg(feature = "scroll")]
 use ethers_core::types::U64;
-#[cfg(feature = "scroll")]
-use std::str::FromStr;
 
 use crate::witness::block_apply_mpt_state;
 #[cfg(feature = "scroll")]
@@ -107,15 +105,6 @@ fn test_super_circuit<
             Some(Hash::from_str("0xa5566b8827b9e1908989e9e6d3115950fd02deeedd291c6fba18cef10971f14f").unwrap()),
         )
         .expect("could not apply l1 block hashes");
-
-    if let Err(e) = &builder {
-        println!("Error: {:?}", e);
-        let backtrace = Backtrace::new();
-        println!("Backtrace:\n{:?}", backtrace);
-        panic!("could not build circuit input: {:?}", builder.err());
-    }
-
-    let mut builder = builder.unwrap();
 
     builder
         .finalize_building()
