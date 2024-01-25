@@ -63,11 +63,12 @@ impl Opcode for Sload {
         {
             let value_from_stack = geth_steps[1].stack.last().unwrap();
             log::trace!(
-                "sload address {:?} key {:?} storage {:?} value_from_statedb {:?} value_from_stack ",
+                "sload address {:?} key {:?} storage {:?} value_from_statedb {:?} value_from_stack {:?} storage {:?}",
                 contract_addr,
                 key,
                 value_from_statedb,
                 geth_steps[1].stack,
+                geth_step.storage,
             );
             let value_from_step = geth_step.storage.get_or_err(&key)?;
             if !(value_from_step == value_from_statedb && value_from_step == value_from_stack) {
