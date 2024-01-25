@@ -261,7 +261,7 @@ pub(crate) fn block_2tx() -> GethData {
 
 const TEST_MOCK_RANDOMNESS: u64 = 0x100;
 
-// #[cfg(feature = "scroll")]
+#[cfg(feature = "scroll")]
 pub fn get_block_trace_from_file<P: AsRef<Path>>(path: P) -> BlockTrace {
     let binding = env::current_dir().ok().unwrap();
     let dir_path = binding.parent().unwrap();
@@ -384,7 +384,7 @@ fn serial_test_super_circuit_1tx_deploy_2max_tx() {
 #[cfg(feature = "scroll")]
 #[test]
 fn serial_test_super_circuit_1tx_2max_tx() {
-    let block = get_block_trace_from_file("/new.json");
+    let block = get_block_trace_from_file("/zkevm-circuits/src/super_circuit/new.json");
     const MAX_TXS: usize = 2;
     const MAX_CALLDATA: usize = 256;
     const MAX_INNER_BLOCKS: usize = 1;
