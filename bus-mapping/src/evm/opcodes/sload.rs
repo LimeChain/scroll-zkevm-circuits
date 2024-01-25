@@ -62,16 +62,18 @@ impl Opcode for Sload {
         let value_from_statedb = *state.sdb.get_storage(&contract_addr, &key).1;
         {
             let value_from_stack = geth_steps[1].stack.last().unwrap();
+            let value_from_step = geth_step.storage.get_or_err(&key)?;
             log::trace!(
-                "sload address: {:?}, key: {:?}, value_from_statedb: {:?}, value_from_stack: {:?}, stack: {:?}, storage: {:?}",
+                "sload address: {:?}, key: {:?}, value_from_statedb: {:?}, value_from_stack: {:?}, stack: {:?}, storage: {:?}, value_from_step: {:?}",
                 contract_addr,
                 key,
                 value_from_statedb,
                 value_from_stack,
                 geth_steps[1].stack,
                 geth_step.storage,
+                value_from_step,
             );
-            let value_from_step = geth_step.storage.get_or_err(&key)?;
+            panic!("here");
             if !(value_from_step == value_from_statedb && value_from_step == value_from_stack) {
                 panic!("inconsistent sload: step proof {value_from_step:?}, local statedb {value_from_statedb:?}, result {value_from_stack:?} in contract {contract_addr:?}, key {key:?}", );
             }
