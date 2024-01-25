@@ -102,7 +102,7 @@ fn test_super_circuit<
         .apply_l1_block_hashes(
             Some(32),
             Some(MOCK_LAST_APPLIED_L1_BLOCK.into()),
-            Some(Hash::from_str("90d8dd7cdea5fadd7b10c681f5e5b520772b4b843705532465f896049d48b058").unwrap()),
+            Some(Hash::from_str("0x90d8dd7cdea5fadd7b10c681f5e5b520772b4b843705532465f896049d48b058").unwrap()),
         )
         .expect("could not apply l1 block hashes");
 
