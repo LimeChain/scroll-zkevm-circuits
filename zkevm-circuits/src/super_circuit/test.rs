@@ -15,15 +15,15 @@ use mock::MOCK_DIFFICULTY_L2GETH as MOCK_DIFFICULTY;
 use mock::{eth, TestContext, MOCK_CHAIN_ID};
 use rand::SeedableRng;
 use rand_chacha::ChaCha20Rng;
+use serde::{Deserialize, Serialize};
 use std::{
-    env::set_var,
+    env::{self, set_var},
     fs::{self, metadata, File},
     io::{BufReader, Read},
     path::{Path, PathBuf},
     str::FromStr,
     sync::Once,
 };
-use serde::{Deserialize, Serialize};
 
 use crate::witness::block_apply_mpt_state;
 #[cfg(feature = "scroll")]
@@ -263,7 +263,16 @@ const TEST_MOCK_RANDOMNESS: u64 = 0x100;
 
 #[cfg(feature = "scroll")]
 pub fn get_block_trace_from_file<P: AsRef<Path>>(path: P) -> BlockTrace {
-    log::info!("loading block trace from {:?}", path.as_ref());
+    let dir_path = env::current_exe()
+        .unwrap()
+        .parent()
+        .unwrap_or_else(|| Path::new(""));
+    println!("The executable is in {}", dir_path.display());
+
+    let mut file_path = PathBuf::from(dir_path);
+    file_path.push(path);
+    println!("The path is {}", file_path.as_ref());
+
     let mut buffer = Vec::new();
     let mut f = File::open(&path).unwrap();
     f.read_to_end(&mut buffer).unwrap();
@@ -377,7 +386,7 @@ fn serial_test_super_circuit_1tx_deploy_2max_tx() {
 #[cfg(feature = "scroll")]
 #[test]
 fn serial_test_super_circuit_1tx_2max_tx() {
-    let block = get_block_trace_from_file("./zkevm-circuits/src/super_circuit/new.json");
+    let block = get_block_trace_from_file("zkevm-circuits/src/super_circuit/new.json");
     const MAX_TXS: usize = 2;
     const MAX_CALLDATA: usize = 256;
     const MAX_INNER_BLOCKS: usize = 1;
