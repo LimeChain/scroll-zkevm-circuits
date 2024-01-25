@@ -65,7 +65,7 @@ impl Opcode for Sload {
                 "sload address {:?} key {:?} storage {:?}",
                 contract_addr,
                 key,
-                geth_step.storage.0,
+                geth_step.storage,
             );
             let value_from_step = geth_step.storage.get_or_err(&key)?;
             let value_from_stack = geth_steps[1].stack.last().unwrap();
