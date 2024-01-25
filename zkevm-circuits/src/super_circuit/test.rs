@@ -70,7 +70,7 @@ fn super_circuit_degree() {
     assert!(cs.degree() <= 11);
 }
 
-#[cfg(feature = "scroll")]
+// #[cfg(feature = "scroll")]
 fn test_super_circuit<
     const MAX_TXS: usize,
     const MAX_CALLDATA: usize,
