@@ -376,7 +376,7 @@ fn serial_test_super_circuit_1tx_deploy_2max_tx() {
 #[cfg(feature = "scroll")]
 #[test]
 fn serial_test_super_circuit_1tx_2max_tx() {
-    let block = get_block_trace_from_file("./zkevm-circuits/src/super_circuit/new.json");
+    let block = get_block_trace_from_file("./new.json");
     const MAX_TXS: usize = 2;
     const MAX_CALLDATA: usize = 256;
     const MAX_INNER_BLOCKS: usize = 1;
