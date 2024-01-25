@@ -163,10 +163,12 @@ pub fn chunk_trace_to_witness_block(mut chunk_trace: ChunkTrace) -> Result<Block
     // Check if the trace exceeds the circuit capacity.
     check_batch_capacity(&mut chunk_trace.block_traces)?;
 
-    let mut witness_block = block_traces_to_witness_block(chunk_trace.block_traces)?;
-    witness_block.prev_last_applied_l1_block = Some(chunk_trace.prev_last_applied_l1_block.unwrap_or(0));
-    witness_block.last_applied_l1_block = Some(chunk_trace.last_applied_l1_block.unwrap_or(0));
-    witness_block.l1_block_range_hash = Some(chunk_trace.l1_block_range_hash.unwrap_or(H256(keccak256(vec![]))));
+    let witness_block = block_traces_to_witness_block(
+      chunk_trace.block_traces,
+      chunk_trace.prev_last_applied_l1_block,
+      chunk_trace.last_applied_l1_block,
+      chunk_trace.l1_block_range_hash,
+    )?;
 
     Ok(witness_block)
 }
