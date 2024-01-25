@@ -263,11 +263,8 @@ const TEST_MOCK_RANDOMNESS: u64 = 0x100;
 
 #[cfg(feature = "scroll")]
 pub fn get_block_trace_from_file<P: AsRef<Path>>(path: P) -> BlockTrace {
-    let dir_path = env::current_exe()
-        .ok()
-        .unwrap()
-        .parent()
-        .unwrap();
+    let binding = env::current_exe().ok().unwrap();
+    let dir_path = binding.parent().unwrap();
     println!("The executable is in {:?}", dir_path.clone().display());
 
     let mut file_path = PathBuf::from(dir_path);
