@@ -86,17 +86,17 @@ fn test_super_circuit<
     MOCK_DIFFICULTY.to_big_endian(&mut difficulty_be_bytes);
     set_var("DIFFICULTY", hex::encode(difficulty_be_bytes));
 
-    let mut builder =
+    let builder =
         CircuitInputBuilder::new_from_l2_trace(circuits_params, l2_trace, false, false);
 
-    if let Err(e) = builder {
+    if let Err(e) = &builder {
         println!("Error: {:?}", e);
         let backtrace = Backtrace::new();
         println!("Backtrace:\n{:?}", backtrace);
         panic!("could not build circuit input: {:?}", builder.err());
     }
 
-    let builder = builder.unwrap();
+    let mut builder = builder.unwrap();
 
     builder
         .finalize_building()
