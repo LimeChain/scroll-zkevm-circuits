@@ -392,8 +392,6 @@ impl Transaction {
             )
         };
 
-        println!("self: {:?}", self);
-
         let tx_id = self.id as u64;
         let mut witness = vec![];
         let rom_table = format.rom_table_rows();
@@ -443,6 +441,9 @@ impl Transaction {
         let mut is_none;
         let mut rlp_tag;
         let mut lb_len = 0;
+
+        println!("rom_table: {:?}", rom_table);
+        println!("self.tx_type: {:?}", self.tx_type);
 
         loop {
             // default behavior
