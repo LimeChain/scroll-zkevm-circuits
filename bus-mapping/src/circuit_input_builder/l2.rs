@@ -214,8 +214,6 @@ impl CircuitInputBuilder {
             dump_code_db(&self.code_db);
         }
 
-        println!("block_trace {:?}", &block_trace);
-
         let eth_block = EthBlock::from(&block_trace);
         let geth_trace: Vec<eth_types::GethExecTrace> = block_trace
             .execution_results
@@ -223,7 +221,6 @@ impl CircuitInputBuilder {
             .map(From::from)
             .collect();
 
-        println!("geth_trace {:?}", &geth_trace);
         assert_eq!(
             self.block.chain_id, block_trace.chain_id,
             "unexpected chain id in new block_trace"

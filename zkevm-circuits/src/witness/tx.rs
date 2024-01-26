@@ -392,6 +392,8 @@ impl Transaction {
             )
         };
 
+        println!("self: {:?}", self);
+
         let tx_id = self.id as u64;
         let mut witness = vec![];
         let rom_table = format.rom_table_rows();
@@ -449,6 +451,7 @@ impl Transaction {
             rlp_tag = RlpTag::Tag(cur.tag);
 
             let mut next = cur.clone();
+            println!("cur: {:?}", cur);
             match cur.state {
                 DecodeTagStart => {
                     if cur.tag.is_end() {

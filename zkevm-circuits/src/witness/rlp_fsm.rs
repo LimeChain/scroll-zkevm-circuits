@@ -763,7 +763,7 @@ pub trait RlpFsmWitnessGen<F: Field>: Sized {
     fn gen_data_table(&self, challenges: &Challenges<Value<F>>) -> Vec<DataTable<F>>;
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub(crate) struct SmState<F: Field> {
     pub(crate) tag: Tag,
     pub(crate) state: State,
