@@ -20,7 +20,7 @@ static CHAIN_ID: LazyLock<u64> = LazyLock::new(|| read_env_var("CHAIN_ID", 53077
 static AUTO_TRUNCATE: LazyLock<bool> = LazyLock::new(|| read_env_var("AUTO_TRUNCATE", false));
 
 ////// params for degree = 20 ////////////
-pub const MAX_TXS: usize = 100;
+pub const MAX_TXS: usize = 10;
 pub const MAX_INNER_BLOCKS: usize = 100;
 pub const MAX_EXP_STEPS: usize = 10_000;
 pub const MAX_CALLDATA: usize = 350_000;

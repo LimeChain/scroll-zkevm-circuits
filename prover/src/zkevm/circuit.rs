@@ -21,7 +21,7 @@ pub use self::builder::{
 pub use super_circuit::SuperCircuit;
 
 ////// params for Super Circuit of degree = 20 ////////////
-pub const MAX_TXS: usize = 100;
+pub const MAX_TXS: usize = 10;
 pub const MAX_INNER_BLOCKS: usize = 100;
 pub const MAX_EXP_STEPS: usize = 10_000;
 pub const MAX_CALLDATA: usize = 350_000;

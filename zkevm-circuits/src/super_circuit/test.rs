@@ -83,7 +83,7 @@ fn test_super_circuit<
     const MAX_INNER_BLOCKS: usize,
     const MOCK_RANDOMNESS: u64,
 >(
-    mut l2_trace: BlockTrace,
+    l2_trace: BlockTrace,
     circuits_params: CircuitsParams,
 ) {
     set_var("COINBASE", "0x5300000000000000000000000000000000000005");
@@ -92,17 +92,15 @@ fn test_super_circuit<
     MOCK_DIFFICULTY.to_big_endian(&mut difficulty_be_bytes);
     set_var("DIFFICULTY", hex::encode(difficulty_be_bytes));
 
-    l2_trace.header.last_applied_l1_block = Some(MOCK_LAST_APPLIED_L1_BLOCK.into());
-
     let mut builder =
         CircuitInputBuilder::new_from_l2_trace(circuits_params, l2_trace, false, false)
             .expect("could not handle block tx");
           
     builder
         .apply_l1_block_hashes(
-            Some(32),
+            Some(45),
             Some(MOCK_LAST_APPLIED_L1_BLOCK.into()),
-            Some(Hash::from_str("0x90d8dd7cdea5fadd7b10c681f5e5b520772b4b843705532465f896049d48b058").unwrap()),
+            Some(Hash::from_str("0xbf6bf5ffabb8af597c2c704c028daa2bd52bb076062961fc912c52c20efc4dad").unwrap()),
         )
         .expect("could not apply l1 block hashes");
 
