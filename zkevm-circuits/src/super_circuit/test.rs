@@ -412,7 +412,7 @@ fn serial_test_super_circuit_1tx_2max_tx() {
         max_exp_steps: 256,
         max_bytecode: 16384,
         max_mpt_rows: 2049,
-        max_poseidon_rows: 512,
+        max_poseidon_rows: 40000,
         max_evm_rows: 0,
         max_keccak_rows: 40000,
         max_inner_blocks: MAX_INNER_BLOCKS,
