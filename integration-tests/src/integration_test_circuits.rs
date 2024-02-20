@@ -67,9 +67,9 @@ pub const MAX_INNER_BLOCKS: usize = 64;
 /// MAX_EXP_STEPS
 const MAX_EXP_STEPS: usize = 1000;
 /// MAX_KECCAK_ROWS
-const MAX_KECCAK_ROWS: usize = 15000;
+const MAX_KECCAK_ROWS: usize = 40000;
 /// MAX_POSEIDON_ROWS
-const MAX_POSEIDON_ROWS: usize = 15000;
+const MAX_POSEIDON_ROWS: usize = 40000;
 /// MAX_VERTICAL_CIRCUIT_ROWS
 const MAX_VERTICAL_CIRCUIT_ROWS: usize = 0;
 /// Max number of EcAdd ops.
